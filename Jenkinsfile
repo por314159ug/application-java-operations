@@ -25,7 +25,9 @@ pipeline {
     stage('Prepare Manifest') {
       steps {
         bat '''
-          mkdir build\\classes
+          if not exist build\\classes (
+            mkdir build\\classes
+          )
           echo Main-Class: Main > build\\classes\\manifest.txt
         '''
       }
@@ -34,7 +36,9 @@ pipeline {
     stage('Package') {
       steps {
         bat '''
-          mkdir build\\jar
+          if not exist build\\jar (
+            mkdir build\\jar
+          )
           "%JAVA_HOME%\\bin\\jar" cfm build\\jar\\MyApplication.jar build\\classes\\manifest.txt -C build\\classes .
         '''
       }
